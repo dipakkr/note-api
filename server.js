@@ -8,10 +8,13 @@ const app = express();
 app.use(bodyparser.urlencoded({extended:true}))
 app.use(bodyparser.json())
 
+app.use(express.static('public'));
+
 var dbConfig = require('./config/database.config.js');
 var mongoose = require('mongoose');
 
-require('./app/routes/note.routes.js')(app);
+var routes = require('./app/routes/note.routes.js');
+app.use('/',routes);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.url);
